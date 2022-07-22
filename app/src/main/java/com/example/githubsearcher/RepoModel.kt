@@ -83,5 +83,5 @@ class RepoModel(
     @SerializedName("watchers"                    ) var watchers                 : Int?              = null,
     @SerializedName("default_branch"              ) var defaultBranch            : String?           = null,
     @SerializedName("score"                       ) var score                    : Int?              = null
-) : CommonModel(),Serializable
+) : CommonModel()
 

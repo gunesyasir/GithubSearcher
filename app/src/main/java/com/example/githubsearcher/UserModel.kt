@@ -22,6 +22,6 @@ open class UserModel (
     @SerializedName("received_events_url" ) var receivedEventsUrl : String?  = null,
     @SerializedName("type"                ) var type              : String?  = null,
     @SerializedName("site_admin"          ) var siteAdmin         : Boolean? = null
-) : CommonModel(), Serializable
+) : CommonModel()
 
 

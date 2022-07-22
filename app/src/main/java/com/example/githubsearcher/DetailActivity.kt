@@ -27,7 +27,6 @@ class DetailActivity : AppCompatActivity() {
         binding.root.clearFocus()
         setSupportActionBar(binding.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        val className = intent.getStringExtra("Class")
         imageView = binding.imageview
         textView1 = binding.textview1
         textView2 = binding.textview2
@@ -36,8 +35,8 @@ class DetailActivity : AppCompatActivity() {
         textView5 = binding.textview5
         textView6 = binding.textview6
         textView7 = binding.textview7
-        if (className.equals("User")) {
-            val userModel = intent.getSerializableExtra("UserObject") as UserModel
+        if(intent.getSerializableExtra("CommonObject") is UserModel){
+            val userModel = intent.getSerializableExtra("CommonObject") as UserModel
             imageView.load(userModel.avatarUrl)
             textView1.text = userModel.login.toString()
             textView2.text = userModel.eventsUrl.toString()
@@ -45,8 +44,9 @@ class DetailActivity : AppCompatActivity() {
             textView4.text = userModel.followingUrl.toString()
             textView5.text = userModel.gistsUrl.toString()
             textView6.text = userModel.gravatarId.toString()
-        } else {
-            val repoModel = intent.getSerializableExtra("RepoObject") as RepoModel
+        }
+        else {
+            val repoModel = intent.getSerializableExtra("CommonObject") as RepoModel
             imageView.load(repoModel.owner!!.avatarUrl)
             textView1.text = repoModel.name.toString()
             textView2.text = repoModel.description.toString()

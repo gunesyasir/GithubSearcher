@@ -1,3 +1,5 @@
 package com.example.githubsearcher
 
-open class CommonModel
+import java.io.Serializable
+
+open class CommonModel: Serializable
