@@ -27,14 +27,14 @@ class DetailActivity : AppCompatActivity() {
         binding.root.clearFocus()
         setSupportActionBar(binding.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        imageView = binding.imageview
-        textView1 = binding.textview1
-        textView2 = binding.textview2
-        textView3 = binding.textview3
-        textView4 = binding.textview4
-        textView5 = binding.textview5
-        textView6 = binding.textview6
-        textView7 = binding.textview7
+        imageView = binding.imageView
+        textView1 = binding.textView1
+        textView2 = binding.textView2
+        textView3 = binding.textView3
+        textView4 = binding.textView4
+        textView5 = binding.textView5
+        textView6 = binding.textView6
+        textView7 = binding.textView7
         if(intent.getSerializableExtra("CommonObject") is UserModel){
             val userModel = intent.getSerializableExtra("CommonObject") as UserModel
             imageView.load(userModel.avatarUrl)
