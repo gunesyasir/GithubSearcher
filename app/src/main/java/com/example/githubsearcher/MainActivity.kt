@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(),MainAdapter.RecyclerViewClickListener {
                     if (response.isSuccessful) {
                         repoList = response.body()!!.items as List<CommonModel>
                         commonResult = userList + repoList
-                        val adapter = MainAdapter(this@MainActivity, commonResult, this@MainActivity)
+                        val adapter = MainAdapter(commonResult, this@MainActivity)
                         binding.recyclerView.adapter = adapter
                     } else Log.e("Repo error", "problem!!")
                 }

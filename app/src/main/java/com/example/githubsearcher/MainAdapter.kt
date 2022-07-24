@@ -10,40 +10,24 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.example.githubsearcher.databinding.RepoDesignBinding
+import com.example.githubsearcher.databinding.UserDesignBinding
 
 class MainAdapter(
-    private val adapterContext: Context,
     private val resultList: List<CommonModel>,
     private val listener: RecyclerViewClickListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
     interface RecyclerViewClickListener {
-        fun onClick(item : CommonModel)
+        fun onClick(item: CommonModel)
     }
 
+    inner class UserViewHolder(val userBinding: UserDesignBinding) :
+        RecyclerView.ViewHolder(userBinding.root)
 
-    inner class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var userImage: ImageView
-        var userInfocard: TextView
-
-        init {
-            userImage = view.findViewById(R.id.itemImage)
-            userInfocard = view.findViewById(R.id.itemInfoCard)
-        }
-
-    }
-
-    inner class RepoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var repoImage: ImageView
-        var repoInfocard: TextView
-
-        init {
-            repoImage = view.findViewById(R.id.itemImage)
-            repoInfocard = view.findViewById(R.id.itemInfoCard)
-        }
-    }
+    inner class RepoViewHolder(val repoBinding: RepoDesignBinding) :
+        RecyclerView.ViewHolder(repoBinding.root)
 
     private val TYPE_USER = 0
     private val TYPE_REPO = 1
@@ -57,44 +41,50 @@ class MainAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == TYPE_USER) {
-            val view =
-                LayoutInflater.from(adapterContext).inflate(R.layout.user_design, parent, false)
-            return UserViewHolder(view)
+            val userBinding =
+                UserDesignBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return UserViewHolder(userBinding)
         } else {
-            val view =
-                LayoutInflater.from(adapterContext).inflate(R.layout.repo_design, parent, false)
-            return RepoViewHolder(view)
+            val repoBinding =
+                RepoDesignBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return RepoViewHolder(repoBinding)
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = resultList[position]
         if (getItemViewType(position) == TYPE_USER) {
-            item as UserModel
-            holder as UserViewHolder
-            holder.userInfocard.text = item.login
-            holder.userImage.load(item.avatarUrl) {
-                crossfade(false)
-                transformations(CircleCropTransformation())
-            }
-            holder.itemView.setOnClickListener {
-                listener.onClick(item)
+            with(holder as UserViewHolder) {
+                with(item as UserModel) {
+                    userBinding.itemInfoCard.text = this.login
+                    userBinding.itemImage.load(this.avatarUrl) {
+                        crossfade(false)
+                        transformations(CircleCropTransformation())
+                    }
+                    userBinding.divider.setOnClickListener {
+                        listener.onClick(this)
+                    }
+                }
             }
         }
         else {
-            item as RepoModel
-            holder as RepoViewHolder
-            holder.repoInfocard.text = item.name
-            holder.repoImage.load(item.owner!!.avatarUrl) {
-                transformations(CircleCropTransformation())
-            }
-            holder.itemView.setOnClickListener {
-                listener.onClick(item)
+            with(holder as RepoViewHolder) {
+                with(item as RepoModel) {
+                    repoBinding.itemInfoCard.text = this.name
+                    repoBinding.itemImage.load(this.owner!!.avatarUrl){
+                        crossfade(false)
+                        transformations(CircleCropTransformation())
+                    }
+                    repoBinding.divider.setOnClickListener {
+                        listener.onClick(this)
+                    }
+                }
             }
         }
+
     }
 
-    override fun getItemCount(): Int {
-        return resultList.size
-    }
+override fun getItemCount(): Int {
+    return resultList.size
+}
 }
