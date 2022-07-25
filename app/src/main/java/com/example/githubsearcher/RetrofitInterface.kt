@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface IRetrofit {
+interface RetrofitInterface {
     @GET("search/users")
     fun getUsersByName(@Query("q") username: String): Call<UserResponse>
 

@@ -21,7 +21,8 @@ open class UserModel (
     @SerializedName("events_url"          ) var eventsUrl         : String?  = null,
     @SerializedName("received_events_url" ) var receivedEventsUrl : String?  = null,
     @SerializedName("type"                ) var type              : String?  = null,
-    @SerializedName("site_admin"          ) var siteAdmin         : Boolean? = null
+    @SerializedName("site_admin"          ) var siteAdmin         : Boolean? = null,
+    @SerializedName("score"               ) var score             : Int?     = null
 ) : CommonModel()
 
 

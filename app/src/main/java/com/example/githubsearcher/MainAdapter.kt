@@ -1,12 +1,7 @@
 package com.example.githubsearcher
 
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -15,12 +10,12 @@ import com.example.githubsearcher.databinding.UserDesignBinding
 
 class MainAdapter(
     private val resultList: List<CommonModel>,
-    private val listener: RecyclerViewClickListener
+    private val listener: RecyclerViewItemClickListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    interface RecyclerViewClickListener {
-        fun onClick(item: CommonModel)
+    interface RecyclerViewItemClickListener {
+        fun onItemClick(item: CommonModel)
     }
 
     inner class UserViewHolder(val userBinding: UserDesignBinding) :
@@ -62,7 +57,7 @@ class MainAdapter(
                         transformations(CircleCropTransformation())
                     }
                     userBinding.divider.setOnClickListener {
-                        listener.onClick(this)
+                        listener.onItemClick(this)
                     }
                 }
             }
@@ -71,12 +66,14 @@ class MainAdapter(
             with(holder as RepoViewHolder) {
                 with(item as RepoModel) {
                     repoBinding.itemInfoCard.text = this.name
-                    repoBinding.itemImage.load(this.owner!!.avatarUrl){
-                        crossfade(false)
-                        transformations(CircleCropTransformation())
+                    if(this.owner?.avatarUrl != null) {
+                        repoBinding.itemImage.load(this.owner!!.avatarUrl) {
+                            crossfade(false)
+                            transformations(CircleCropTransformation())
+                        }
                     }
                     repoBinding.divider.setOnClickListener {
-                        listener.onClick(this)
+                        listener.onItemClick(this)
                     }
                 }
             }

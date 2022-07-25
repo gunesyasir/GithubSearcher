@@ -12,40 +12,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity(),MainAdapter.RecyclerViewClickListener {
+class MainActivity : AppCompatActivity(),MainAdapter.RecyclerViewItemClickListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        linearLayoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = linearLayoutManager
-        binding.root.clearFocus()
-        binding.recyclerView.setHasFixedSize(true)
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    listUsers(query)
-                } else {
-                    Log.e("nullquery", "a")
-                    Toast.makeText(
-                        this@MainActivity,
-                        "You need to type some words!",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-
-                return false
-            }
-        })
+        setViews()
     }
-
 
     private fun listUsers(searchedItem: String) {
         val retrofitObject = AccessRetrofit.getInterface()
@@ -57,9 +31,8 @@ class MainActivity : AppCompatActivity(),MainAdapter.RecyclerViewClickListener {
                     listRepos(searchedItem, userResult)
                 }
             }
-
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Log.e("User error", t.toString())
+                Log.e("RetrofitRequestError", t.toString())
             }
         })
     }
@@ -76,18 +49,46 @@ class MainActivity : AppCompatActivity(),MainAdapter.RecyclerViewClickListener {
                         commonResult = userList + repoList
                         val adapter = MainAdapter(commonResult, this@MainActivity)
                         binding.recyclerView.adapter = adapter
-                    } else Log.e("Repo error", "problem!!")
+                    } else Log.e("ResponseError", "Response is not successfull!!")
                 }
             }
 
             override fun onFailure(call: Call<RepoResponse>, t: Throwable) {
-                Log.e("failure", t.toString())
+                Log.e("ResponseFailure", t.toString())
+            }
+        })
+    }
+    private fun setViews(){
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        linearLayoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = linearLayoutManager
+        binding.root.clearFocus()
+        binding.recyclerView.setHasFixedSize(true)
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    listUsers(query)
+                } else {
+                    Log.e("QueryTextError", "Query text is null!")
+                    Toast.makeText(
+                        this@MainActivity,
+                        "You need to type some words!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                return false
             }
         })
     }
 
-    override fun onClick(item: CommonModel) {
-        val intent = Intent(this@MainActivity,DetailActivity::class.java)
+    override fun onItemClick(item: CommonModel) {
+        val intent = Intent(this@MainActivity, DetailActivity::class.java)
         intent.putExtra("CommonObject", item)
         this@MainActivity.startActivity(intent)
     }
