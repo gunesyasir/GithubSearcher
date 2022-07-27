@@ -1,10 +1,13 @@
-package com.example.githubsearcher
+package com.example.githubsearcher.Model.ViewModel.View
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.example.githubsearcher.Model.CommonModel
+import com.example.githubsearcher.Model.RepoModel
+import com.example.githubsearcher.Model.UserModel
 import com.example.githubsearcher.databinding.RepoDesignBinding
 import com.example.githubsearcher.databinding.UserDesignBinding
 

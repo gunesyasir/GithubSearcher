@@ -1,5 +1,7 @@
 package com.example.githubsearcher
 
+import com.example.githubsearcher.Model.RepoResponse
+import com.example.githubsearcher.Model.UserResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

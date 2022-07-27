@@ -1,4 +1,4 @@
-package com.example.githubsearcher
+package com.example.githubsearcher.Model.ViewModel.View
 
 import android.content.Intent
 import android.graphics.Typeface
@@ -12,6 +12,8 @@ import android.text.style.StyleSpan
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
+import com.example.githubsearcher.Model.RepoModel
+import com.example.githubsearcher.Model.UserModel
 import com.example.githubsearcher.databinding.ActivityDetailBinding
 import java.io.Serializable
 

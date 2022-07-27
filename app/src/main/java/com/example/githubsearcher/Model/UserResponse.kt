@@ -1,4 +1,4 @@
-package com.example.githubsearcher
+package com.example.githubsearcher.Model
 
 import com.google.gson.annotations.SerializedName
 
