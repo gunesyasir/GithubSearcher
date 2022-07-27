@@ -1,7 +1,6 @@
 package com.example.githubsearcher
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 class RepoModel(
     @SerializedName("id"                          ) var id                       : Int?              = null,

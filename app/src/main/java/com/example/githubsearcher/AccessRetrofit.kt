@@ -15,8 +15,8 @@ object AccessRetrofit {
             .build()
     }
 
-    fun getInterface(): `Retrofit Interface` {
-        return getRetrofit().create(`Retrofit Interface`::class.java)
+    fun getInterface(): RetrofitInterface {
+        return getRetrofit().create(RetrofitInterface::class.java)
     }
 
     private fun getOkHttp(): OkHttpClient {

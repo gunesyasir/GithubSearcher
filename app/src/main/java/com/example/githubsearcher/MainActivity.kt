@@ -1,4 +1,4 @@
-package com.example.githubsearcher.View
+package com.example.githubsearcher
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,8 +9,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.githubsearcher.Model.CommonModel
-import com.example.githubsearcher.ViewModel.MainViewModel
 import com.example.githubsearcher.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), MainAdapter.RecyclerViewItemClickListener {
