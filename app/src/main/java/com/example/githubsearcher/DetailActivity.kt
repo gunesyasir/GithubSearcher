@@ -1,60 +1,72 @@
 package com.example.githubsearcher
 
-import android.app.Activity
+import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.widget.ImageView
-import android.widget.TextView
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.method.LinkMovementMethod
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ClickableSpan
+import android.text.style.StyleSpan
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.githubsearcher.databinding.ActivityDetailBinding
+import java.io.Serializable
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), Serializable {
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var imageView: ImageView
-    private lateinit var textView1: TextView
-    private lateinit var textView2: TextView
-    private lateinit var textView3: TextView
-    private lateinit var textView4: TextView
-    private lateinit var textView5: TextView
-    private lateinit var textView6: TextView
-    private lateinit var textView7: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setViews()
+    }
+
+    private fun setViews() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.root.clearFocus()
         setSupportActionBar(binding.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        imageView = binding.imageView
-        textView1 = binding.textView1
-        textView2 = binding.textView2
-        textView3 = binding.textView3
-        textView4 = binding.textView4
-        textView5 = binding.textView5
-        textView6 = binding.textView6
-        textView7 = binding.textView7
-        if(intent.getSerializableExtra("CommonObject") is UserModel){
+        setInfos()
+    }
+
+    private fun setInfos() {
+        if (intent.getSerializableExtra("CommonObject") is UserModel) {
             val userModel = intent.getSerializableExtra("CommonObject") as UserModel
-            imageView.load(userModel.avatarUrl)
-            textView1.text = userModel.login.toString()
-            textView2.text = userModel.eventsUrl.toString()
-            textView3.text = userModel.followersUrl.toString()
-            textView4.text = userModel.followingUrl.toString()
-            textView5.text = userModel.gistsUrl.toString()
-            textView6.text = userModel.gravatarId.toString()
-        }
-        else {
+            binding.apply {
+                itemImageView.load(userModel.avatarUrl)
+                itemName.text = userModel.login.toString()
+                itemID.text = userModel.id.toString()
+                itemScore.text = userModel.score.toString()
+                itemHtmlUrl.text = userModel.htmlUrl.toString()
+            }
+        } else {
             val repoModel = intent.getSerializableExtra("CommonObject") as RepoModel
-            imageView.load(repoModel.owner!!.avatarUrl)
-            textView1.text = repoModel.name.toString()
-            textView2.text = repoModel.description.toString()
-            textView3.text = repoModel.archiveUrl.toString()
-            textView4.text = repoModel.blobsUrl.toString()
-            textView5.text = repoModel.branchesUrl.toString()
-            textView6.text = repoModel.commentsUrl.toString()
-            textView7.text = repoModel.createdAt.toString()
+            binding.apply {
+                itemImageView.load(repoModel.owner!!.avatarUrl)
+                itemName.text = repoModel.name.toString()
+                itemID.text = repoModel.id.toString()
+                itemScore.text = repoModel.score.toString()
+                itemHtmlUrl.text = repoModel.htmlUrl.toString()
+                    val staticValue = "Owner: "
+                    val spannable = SpannableString(staticValue  + repoModel.owner!!.login.toString())
+                    val styleSpan = StyleSpan(Typeface.BOLD_ITALIC)
+                    val sizeSpan = AbsoluteSizeSpan(100)
+                    val clickableSpan = object: ClickableSpan(){
+                        override fun onClick(textView: View) {
+                            val intent = Intent(this@DetailActivity, DetailActivity::class.java)
+                            intent.putExtra("CommonObject", repoModel.owner )
+                            startActivity(intent)
+                        }
+                    }
+                    spannable.setSpan(sizeSpan, 0, staticValue.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    spannable.setSpan(styleSpan, 0, staticValue.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    spannable.setSpan(clickableSpan, staticValue.length, spannable.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    repoOwner.movementMethod = LinkMovementMethod.getInstance()
+                    repoOwner.text = spannable
+            }
         }
     }
 }
