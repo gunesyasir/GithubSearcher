@@ -1,4 +1,4 @@
-package com.example.githubsearcher.Model.ViewModel.View
+package com.example.githubsearcher.UI
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

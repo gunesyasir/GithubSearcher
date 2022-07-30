@@ -1,9 +1,9 @@
-package com.example.githubsearcher.Model.ViewModel
+package com.example.githubsearcher.UI.ViewModel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.githubsearcher.AccessRetrofit
+import com.example.githubsearcher.Retrofit.AccessRetrofit
 import com.example.githubsearcher.Model.CommonModel
 import com.example.githubsearcher.Model.RepoResponse
 import com.example.githubsearcher.Model.UserResponse

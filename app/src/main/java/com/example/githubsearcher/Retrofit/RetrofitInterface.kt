@@ -1,4 +1,4 @@
-package com.example.githubsearcher
+package com.example.githubsearcher.Retrofit
 
 import com.example.githubsearcher.Model.RepoResponse
 import com.example.githubsearcher.Model.UserResponse

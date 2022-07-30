@@ -16,7 +16,7 @@
         android:theme="@style/Theme.GithubSearcher"
         tools:targetApi="31">
         <activity
-            android:name=".Model.ViewModel.View.MainActivity"
+            android:name=".UI.MainActivity"
             android:exported="true"
             android:screenOrientation="locked">
 
@@ -26,8 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Model.ViewModel.View.DetailActivity"
-            android:parentActivityName=".Model.ViewModel.View.MainActivity">
+        <activity android:name=".UI.DetailActivity"
+            android:parentActivityName=".UI.MainActivity">
 
         </activity>
     </application>

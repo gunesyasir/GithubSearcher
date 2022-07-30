@@ -1,4 +1,4 @@
-package com.example.githubsearcher
+package com.example.githubsearcher.Retrofit
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

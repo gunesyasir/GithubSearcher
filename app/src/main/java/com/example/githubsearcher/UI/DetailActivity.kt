@@ -1,4 +1,4 @@
-package com.example.githubsearcher.Model.ViewModel.View
+package com.example.githubsearcher.UI
 
 import android.content.Intent
 import android.graphics.Typeface
@@ -53,7 +53,8 @@ class DetailActivity : AppCompatActivity(), Serializable {
                 itemScore.text = repoModel.score.toString()
                 itemHtmlUrl.text = repoModel.htmlUrl.toString()
                     val staticValue = "Owner: "
-                    val spannable = SpannableString(staticValue  + repoModel.owner!!.login.toString())
+                    val spannable =
+                        SpannableString(staticValue + repoModel.owner!!.login.toString())
                     val styleSpan = StyleSpan(Typeface.BOLD_ITALIC)
                     val sizeSpan = AbsoluteSizeSpan(100)
                     val clickableSpan = object: ClickableSpan(){
