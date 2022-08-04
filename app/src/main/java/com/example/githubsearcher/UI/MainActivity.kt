@@ -16,55 +16,55 @@ import com.example.githubsearcher.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity(), MainAdapter.RecyclerViewItemClickListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var linearLayoutManager: LinearLayoutManager
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setViews()
+    private val mainViewModel: MainViewModel by lazy {
+        ViewModelProvider(this@MainActivity).get(MainViewModel::class.java)
     }
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setViews()
+            mainViewModel.liveDataResult.observe(this@MainActivity, Observer {
+                binding.recyclerView.adapter = MainAdapter(mainViewModel.liveDataResult.value!!, this@MainActivity)
+            })
+        }
 
-    private fun setViews(){
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        linearLayoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = linearLayoutManager
-        binding.root.clearFocus()
-        binding.recyclerView.setHasFixedSize(true)
-        performSearch()
-    }
-    private fun performSearch(){
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    val myViewModel = ViewModelProvider(this@MainActivity).get(MainViewModel::class.java)
-                    myViewModel.listItems(query)
-                    myViewModel.liveDataResult.observe(this@MainActivity, Observer {
-                        Log.e("observer", myViewModel.liveDataResult.value.toString())
-                        val adapter = MainAdapter(myViewModel.liveDataResult.value!!, this@MainActivity)
-                        binding.recyclerView.adapter = adapter
-                    })
-                } else {
-                    Log.e("QueryTextError", "Query text is null!")
-                    Toast.makeText(
-                        this@MainActivity,
-                        "You need to type some words!",
-                        Toast.LENGTH_LONG
-                    ).show()
+        private fun setViews(){
+            binding = ActivityMainBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+            linearLayoutManager = LinearLayoutManager(this)
+            binding.recyclerView.layoutManager = linearLayoutManager
+            binding.root.clearFocus()
+            binding.recyclerView.setHasFixedSize(true)
+            performSearch()
+        }
+        private fun performSearch(){
+            binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (query != null) {
+                        mainViewModel.listItems(query)
+                    } else {
+                        Log.e("QueryTextError", "Query text is null!")
+                        Toast.makeText(
+                            this@MainActivity,
+                            "You need to type some words!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    return true
                 }
-                return true
-            }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+            })
+        }
 
-                return false
-            }
-        })
+        override fun onItemClick(item: CommonModel) {
+            val intent = Intent(this@MainActivity, DetailActivity::class.java)
+            intent.putExtra("CommonObject", item)
+            this@MainActivity.startActivity(intent)
+        }
     }
-
-    override fun onItemClick(item: CommonModel) {
-        val intent = Intent(this@MainActivity, DetailActivity::class.java)
-        intent.putExtra("CommonObject", item)
-        this@MainActivity.startActivity(intent)
-    }
-}
 
 
 
