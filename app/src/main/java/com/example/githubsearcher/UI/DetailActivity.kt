@@ -31,6 +31,9 @@ class DetailActivity : AppCompatActivity(), Serializable {
         binding.root.clearFocus()
         setSupportActionBar(binding.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
         setInfos()
     }
 
