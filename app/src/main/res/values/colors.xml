@@ -8,4 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="yellow">#FFFFEB3B</color>
     <color name="white">#FFFFFF</color>
+    <color name="primaryColor">#455a64</color>
+    <color name="primaryLightColor">#718792</color>
+    <color name="primaryDarkColor">#1c313a</color>
+    <color name="secondaryColor">#ff8f00</color>
+    <color name="secondaryLightColor">#ffc046</color>
+    <color name="secondaryDarkColor">#c56000</color>
+    <color name="backgroundColor">#eeeeee</color>
+    <color name="secondaryTextColor">#8d6e63</color>
 </resources>
