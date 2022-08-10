@@ -84,7 +84,7 @@ class MainAdapter(
 
     }
 
-override fun getItemCount(): Int {
-    return resultList.size
-}
+    override fun getItemCount(): Int {
+        return resultList.size
+    }
 }

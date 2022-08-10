@@ -15,6 +15,7 @@ class MainViewModel(): ViewModel(){
      var liveDataResult = MutableLiveData<List<CommonModel>>()
 
     fun listItems(searchedItem: String){
+        liveDataResult.value = emptyList()
         listUsers(searchedItem)
     }
      private fun listUsers(searchedItem: String) {
