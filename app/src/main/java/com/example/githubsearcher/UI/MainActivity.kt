@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,9 +44,11 @@ class MainActivity : AppCompatActivity(), MainAdapter.RecyclerViewItemClickListe
             false
         }
         binding.searchButton.setOnClickListener { performSearch() }
+
     }
 
     private fun performSearch(){
+
         val query = binding.editText.text.toString()
         if (TextUtils.getTrimmedLength(query)!=0) {
             mainViewModel.listItems(query)

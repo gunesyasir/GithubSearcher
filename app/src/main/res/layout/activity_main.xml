@@ -41,28 +41,19 @@
             android:inputType="text"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-    <!--<com.google.android.material.textfield.TextInputEditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="Type here"
-    android:inputType="text"
-    android:imeOptions="actionSearch"
-    android:inputType="text"
-            android:imeOptions="actionSearch"
-    </com.google.android.material.textfield.TextInputEditText>
-        >-->
-    <Button
+
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/search_button"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:background="@drawable/search_icon"
         android:backgroundTint="@color/primaryColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="0.10"
         app:layout_constraintStart_toEndOf="@id/edit_text_container"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintWidth_percent="0.15"
-
+        app:srcCompat="@drawable/search_icon"
+        android:background="?attr/selectableItemBackgroundBorderless"
         />
 
     <androidx.recyclerview.widget.RecyclerView
