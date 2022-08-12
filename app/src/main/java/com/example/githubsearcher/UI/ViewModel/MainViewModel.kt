@@ -1,8 +1,8 @@
 package com.example.githubsearcher.UI.ViewModel
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.view.View
+import androidx.lifecycle.*
 import com.example.githubsearcher.Retrofit.AccessRetrofit
 import com.example.githubsearcher.Model.CommonModel
 import com.example.githubsearcher.Model.RepoResponse
@@ -12,14 +12,16 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel(): ViewModel(){
-     var liveDataResult = MutableLiveData<List<CommonModel>>()
+    var liveDataResult = MutableLiveData<List<CommonModel>>()
+    var isRefreshed = MutableLiveData(false)
 
     fun listItems(searchedItem: String){
+        isRefreshed.value = true
         liveDataResult.value = emptyList()
         listUsers(searchedItem)
     }
-     private fun listUsers(searchedItem: String) {
-         var userResult: List<CommonModel>
+    private fun listUsers(searchedItem: String) {
+        var userResult: List<CommonModel>
         val retrofitObject = AccessRetrofit.getInterface()
         retrofitObject.getUsersByName(searchedItem).enqueue(object : Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
@@ -44,12 +46,14 @@ class MainViewModel(): ViewModel(){
                         repoResult = response.body()!!.items as List<CommonModel>
                         commonResult = userResult + repoResult
                         liveDataResult.value = commonResult
+                        isRefreshed.value = false
 
                     } else Log.e("ResponseError", "Response is not successfull!!")
                 }
             }
             override fun onFailure(call: Call<RepoResponse>, t: Throwable) {
                 Log.e("ResponseFailure", t.toString())
+                isRefreshed.value = false
             }
         })
     }

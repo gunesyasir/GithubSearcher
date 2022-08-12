@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import androidx.core.view.isInvisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +17,6 @@ import com.example.githubsearcher.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), MainAdapter.RecyclerViewItemClickListener {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var linearLayoutManager: LinearLayoutManager
     private val mainViewModel: MainViewModel by lazy {
         ViewModelProvider(this@MainActivity).get(MainViewModel::class.java)
     }
@@ -32,8 +31,7 @@ class MainActivity : AppCompatActivity(), MainAdapter.RecyclerViewItemClickListe
     private fun setViews(){
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        linearLayoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = linearLayoutManager
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.root.clearFocus()
         binding.recyclerView.setHasFixedSize(true)
         binding.editText.setOnEditorActionListener { textView, i, keyEvent ->
@@ -44,11 +42,10 @@ class MainActivity : AppCompatActivity(), MainAdapter.RecyclerViewItemClickListe
             false
         }
         binding.searchButton.setOnClickListener { performSearch() }
-
+        activateProgressBar()
     }
 
     private fun performSearch(){
-
         val query = binding.editText.text.toString()
         if (TextUtils.getTrimmedLength(query)!=0) {
             mainViewModel.listItems(query)
@@ -59,6 +56,15 @@ class MainActivity : AppCompatActivity(), MainAdapter.RecyclerViewItemClickListe
                 "You need to type some words!",
                 Toast.LENGTH_LONG
             ).show()
+        }
+    }
+    private fun activateProgressBar() {
+        mainViewModel.isRefreshed.observe(this){
+            if (mainViewModel.isRefreshed.value == true) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.INVISIBLE
+            }
         }
     }
 
