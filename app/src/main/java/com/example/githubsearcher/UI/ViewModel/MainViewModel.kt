@@ -1,7 +1,6 @@
 package com.example.githubsearcher.UI.ViewModel
 
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.*
 import com.example.githubsearcher.Retrofit.AccessRetrofit
 import com.example.githubsearcher.Model.CommonModel
@@ -12,12 +11,21 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel(): ViewModel(){
-    var liveDataResult = MutableLiveData<List<CommonModel>>()
-    var isRefreshed = MutableLiveData(false)
+
+    private var _liveDataResult = MutableLiveData<List<CommonModel>>()
+    val liveDataResult: LiveData<List<CommonModel>> = _liveDataResult
+
+    // Object to manage ProgressBar status
+    private var _isRefreshed = MutableLiveData(false)
+    val isRefreshed: LiveData<Boolean> = _isRefreshed
+
+    // Object to manage empty response status
+    private var _isCompleted = MutableLiveData<Boolean>(false)
+    val isCompleted: LiveData<Boolean> = _isCompleted
 
     fun listItems(searchedItem: String){
-        isRefreshed.value = true
-        liveDataResult.value = emptyList()
+        _isRefreshed.value = true
+        _liveDataResult.value = emptyList()
         listUsers(searchedItem)
     }
     private fun listUsers(searchedItem: String) {
@@ -45,15 +53,17 @@ class MainViewModel(): ViewModel(){
                     if (response.isSuccessful) {
                         repoResult = response.body()!!.items as List<CommonModel>
                         commonResult = userResult + repoResult
-                        liveDataResult.value = commonResult
-                        isRefreshed.value = false
+                        _liveDataResult.value = commonResult
+                        _isRefreshed.value = false
+                        _isCompleted.value = true
 
                     } else Log.e("ResponseError", "Response is not successfull!!")
                 }
             }
             override fun onFailure(call: Call<RepoResponse>, t: Throwable) {
                 Log.e("ResponseFailure", t.toString())
-                isRefreshed.value = false
+                _isRefreshed.value = false
+                _isCompleted.value = true
             }
         })
     }

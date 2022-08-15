@@ -9,6 +9,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubsearcher.Model.CommonModel
@@ -23,9 +24,7 @@ class MainActivity : AppCompatActivity(), MainAdapter.RecyclerViewItemClickListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setViews()
-        mainViewModel.liveDataResult.observe(this@MainActivity, Observer {
-            binding.recyclerView.adapter = MainAdapter(mainViewModel.liveDataResult.value!!, this@MainActivity)
-        })
+        observeData()
     }
 
     private fun setViews(){
@@ -59,13 +58,27 @@ class MainActivity : AppCompatActivity(), MainAdapter.RecyclerViewItemClickListe
         }
     }
     private fun activateProgressBar() {
-        mainViewModel.isRefreshed.observe(this){
-            if (mainViewModel.isRefreshed.value == true) {
+        mainViewModel.isRefreshed.observe(this@MainActivity){
+            if (it == true) {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
                 binding.progressBar.visibility = View.INVISIBLE
             }
         }
+    }
+    private fun observeData(){
+        mainViewModel.liveDataResult.observe(this@MainActivity, Observer {
+            binding.recyclerView.adapter = MainAdapter(mainViewModel.liveDataResult.value!!, this@MainActivity)
+        })
+        mainViewModel.isCompleted.observe(this@MainActivity, Observer {
+            if (it == true && mainViewModel.liveDataResult.value?.size == 0){
+                Toast.makeText(
+                    this@MainActivity,
+                    "No result found!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
     }
 
     override fun onItemClick(item: CommonModel) {
