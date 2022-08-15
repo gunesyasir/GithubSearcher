@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ClickableSpan
@@ -52,14 +53,16 @@ class DetailActivity : AppCompatActivity(), Serializable {
             binding.apply {
                 itemImageView.load(repoModel.owner!!.avatarUrl)
                 itemName.text = repoModel.name.toString()
+                itemName.ellipsize = TextUtils.TruncateAt.END
                 itemID.text = repoModel.id.toString()
                 itemScore.text = repoModel.score.toString()
                 itemHtmlUrl.text = repoModel.htmlUrl.toString()
+                itemHtmlUrl.ellipsize = TextUtils.TruncateAt.END
                     val staticValue = "Owner: "
                     val spannable =
                         SpannableString(staticValue + repoModel.owner!!.login.toString())
-                    val styleSpan = StyleSpan(Typeface.BOLD_ITALIC)
-                    val sizeSpan = AbsoluteSizeSpan(100)
+                    val styleSpan = StyleSpan(Typeface.BOLD)
+                    val sizeSpan = AbsoluteSizeSpan(65)
                     val clickableSpan = object: ClickableSpan(){
                         override fun onClick(textView: View) {
                             val intent = Intent(this@DetailActivity, DetailActivity::class.java)
