@@ -67,10 +67,10 @@ class MainActivity : AppCompatActivity(), MainAdapter.RecyclerViewItemClickListe
         }
     }
     private fun observeData(){
-        mainViewModel.liveDataResult.observe(this@MainActivity, Observer {
+        mainViewModel.liveDataResult.observe(this@MainActivity) {
             binding.recyclerView.adapter = MainAdapter(mainViewModel.liveDataResult.value!!, this@MainActivity)
-        })
-        mainViewModel.isCompleted.observe(this@MainActivity, Observer {
+        }
+        mainViewModel.isCompleted.observe(this@MainActivity) {
             if (it == true && mainViewModel.liveDataResult.value?.size == 0){
                 Toast.makeText(
                     this@MainActivity,
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), MainAdapter.RecyclerViewItemClickListe
                     Toast.LENGTH_LONG
                 ).show()
             }
-        })
+        }
     }
 
     override fun onItemClick(item: CommonModel) {
